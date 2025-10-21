@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>د. أحمد يحيى - استشاري جراحات القرنية و المياه البيضاء و الليزك</title>
+    
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- تحميل خط Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJzL31YtLzOQ/5qS/7u5lC4S+zC5g/2C1fXQ4Xm3lD+D8X5X8y5x5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* CSS مخصص لضمان الجمالية والتجاوب */
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header-bg {
+            /* تدرج لوني احترافي */
+            background: linear-gradient(135deg, #0d6efd 0%, #002d6b 100%);
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            color: #002d6b;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #0d6efd;
+            border-radius: 9999px;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        /* كلاس لإخفاء زر العودة للأعلى مبدئياً */
+        #scroll-to-top {
+            transition: opacity 0.3s, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            /* للتأكد من أنه فوق كل العناصر ما عدا الـ CTA */
+            z-index: 40; 
+        }
+        #scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* لضمان ظهور الـ CTA فوق كل شيء */
+        .floating-cta {
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="antialiased bg-gray-50">
+
+    <!-- زر العودة للأعلى (Floating Scroll-to-Top Button) -->
+    <button id="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="fixed bottom-20 left-5 bg-[#0d6efd] text-white p-3 rounded-full shadow-2xl hover:bg-[#0056b3] transition duration-300 transform hover:scale-110">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
+    <!-- شريط التنقل (Navbar) -->
+    <nav class="sticky top-0 z-50 bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- شعار الموقع -->
+                <div class="flex-shrink-0">
+                    <span class="text-sm sm:text-lg lg:text-xl font-black text-[#002d6b]">د. أحمد يحيى - استشاري جراحات القرنية و المياه البيضاء و الليزك</span>
+                </div>
+                <!-- قائمة التنقل (الديسكتوب) -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4 space-x-reverse">
+                        <a href="#home" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">الرئيسية</a>
+                        <a href="#about" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">عن الدكتور</a>
+                        <a href="#stats" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">أرقامنا</a>
+                        <a href="#services" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">الخدمات</a>
+                        <a href="#testimonials" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">آراء المرضى</a>
+                        <a href="#faq" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">أسئلة شائعة</a>
+                        <a href="#clinics" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">فروعنا</a>
+                        <a href="#contact" class="bg-[#0d6efd] text-white px-4 py-2 rounded-full text-base font-medium hover:scale-105 transition duration-300">احجز الآن</a>
+                    </div>
+                </div>
+                <!-- زر القائمة في الموبايل -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#0d6efd] focus:outline-none">
+                        <span class="sr-only">فتح القائمة الرئيسية</span>
+                        <i class="fas fa-bars h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- قائمة الموبايل الديناميكية -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-100">
+                <a href="#home" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
+                <a href="#about" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">عن الدكتور</a>
+                <a href="#stats" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">أرقامنا</a>
+                <a href="#services" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">الخدمات</a>
+                <a href="#testimonials" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">آراء المرضى</a>
+                <a href="#faq" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">أسئلة شائعة</a>
+                <a href="#clinics" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">فروعنا</a>
+                <a href="#contact" class="bg-[#0d6efd] text-white block px-3 py-2 rounded-md text-base font-medium mt-2">احجز الآن</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- القسم الرئيسي (Hero Section) -->
+    <header id="home" class="header-bg relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- محتوى النص -->
+                <div class="text-white">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">
+                        **سنوات من الخبرة في أدق جراحات العيون.**
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-light mb-8">
+                        الدكتور أحمد يحيى - استشاري طب وجراحة العيون. **رؤيتك في أيدٍ أمينة.**
+                    </p>
+                    <a href="#contact" class="bg-[#0d6efd] inline-flex items-center justify-center px-8 py-3 border border-transparent text-lg font-bold rounded-full text-white hover:bg-[#0056b3] hover:scale-105 transition duration-300 shadow-xl">
+                        احجز موعدك الآن <i class="fas fa-calendar-alt mr-2"></i>
+                    </a>
+                </div>
+                <!-- صورة الدكتور (Placeholder) -->
+                <div class="hidden md:flex justify-center">
+                    <img src="https://placehold.co/400x400/0d6efd/ffffff?text=Dr.+Ahmed+Yahia+--+Ophthalmology+Consultant" alt="صورة الدكتور أحمد يحيى في غرفة العمليات" class="w-full max-w-sm rounded-3xl shadow-2xl object-cover h-auto border-4 border-white">
+                </div>
+            </div>
+        </div>
+        <!-- شكل موجة سفلي جمالي -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden" style="height: 150px;">
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+                <path d="M0.00,49.98 C150.00,150.00 349.20,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #f8f9fa;"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- قسم عن الدكتور والمؤهلات والخدمات المميزة -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">عن الدكتور أحمد يحيى</h2>
+            
+            <div class="lg:grid lg:grid-cols-3 lg:gap-10 items-start">
+                <!-- نبذة عن الدكتور والمؤهلات -->
+                <div class="lg:col-span-2 space-y-6 text-gray-700 text-lg mb-8 lg:mb-0">
+                    <p>
+                        الدكتور أحمد يحيى هو استشاري طب وجراحة العيون، متخصص بخبرة واسعة في أدق وأحدث جراحات العيون، لضمان أعلى مستويات الدقة والأمان والرعاية لمرضاه.
+                    </p>
+
+                    <!-- قائمة المؤهلات الجديدة -->
+                    <h3 class="text-xl font-bold text-[#002d6b] pt-4 border-t border-gray-200">المؤهلات العلمية والزمالات</h3>
+                    <ul class="space-y-3 list-none p-0 text-gray-800">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#0d6efd] text-xl ml-3 mt-1"></i>
+                            <div>
+                                <span class="font-bold">دكتوراه طب وجراحة العيون</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#0d6efd] text-xl ml-3 mt-1"></i>
+                            <div>
+                                <span class="font-bold">زمالة كلية الجراحين الملكية</span> - جلاسجو - المملكة المتحدة
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#0d6efd] text-xl ml-3 mt-1"></i>
+                            <div>
+                                <span class="font-bold">زمالة المجلس العالمي للعيون</span> - كامبريدج - المملكة المتحدة
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- نبذة عن التخصصات (مع النجوم) -->
+                    <h3 class="text-xl font-bold text-[#002d6b] pt-4 border-t border-gray-200">التخصصات الأساسية</h3>
+                    <ul class="space-y-3 list-disc list-inside text-[#002d6b] font-semibold">
+                        <li><i class="fas fa-laser text-[#0d6efd] ml-2"></i> **جراحات تصحيح الإبصار (الليزك والفيمتوليزك):** للتخلص نهائياً من النظارات والعدسات اللاصقة.</li>
+                        <li><i class="fas fa-eye text-[#0d6efd] ml-2"></i> **جراحات المياه البيضاء (الفاكو وزرع العدسات):** باستخدام أحدث التقنيات لاستعادة الرؤية الواضحة.</li>
+                        <li><i class="fas fa-hand-holding-medical text-[#0d6efd] ml-2"></i> **جراحات القرنية (زراعة القرنية وحلقات القرنية):** علاج متقدم لحالات القرنية المخروطية ومشاكل القرنية الأخرى.</li>
+                    </ul>
+                    <a href="#services" class="text-[#0d6efd] hover:text-[#0056b3] font-bold inline-block mt-4 transition duration-150">اكتشف المزيد عن خدماتنا <i class="fas fa-arrow-left mr-2"></i></a>
+                </div>
+                
+                <!-- صورة الشعار (Placeholder) -->
+                <div class="lg:col-span-1 flex justify-center">
+                    <img src="https://placehold.co/300x300/e0e0e0/0d6efd?text=Dr.+Ahmed+Yahia+Logo" alt="شعار عيادات الدكتور أحمد يحيى" class="w-full max-w-xs rounded-full p-4 border border-gray-200 shadow-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الإحصائيات والأرقام (Stats) -->
+    <section id="stats" class="header-bg py-16 md:py-24 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-12">أرقام تتحدث عن ثقتكم ونجاحنا</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                
+                <!-- إحصائية 1: سنوات الخبرة -->
+                <div class="p-6 bg-white/10 rounded-xl backdrop-blur-sm shadow-xl hover-lift transition duration-300">
+                    <p class="text-5xl md:text-6xl font-extrabold text-[#ffffff] mb-3">+10</p>
+                    <p class="text-xl md:text-2xl font-medium">سنوات من الخبرة</p>
+                </div>
+                
+                <!-- إحصائية 2: العمليات الناجحة -->
+                <div class="p-6 bg-white/10 rounded-xl backdrop-blur-sm shadow-xl hover-lift transition duration-300">
+                    <p class="text-5xl md:text-6xl font-extrabold text-[#ffffff] mb-3">+5000</p>
+                    <p class="text-xl md:text-2xl font-medium">عملية ناجحة</p>
+                </div>
+                
+                <!-- إحصائية 3: نسبة رضا المرضى -->
+                <div class="p-6 bg-white/10 rounded-xl backdrop-blur-sm shadow-xl hover-lift transition duration-300">
+                    <p class="text-5xl md:text-6xl font-extrabold text-[#ffffff] mb-3">99%</p>
+                    <p class="text-xl md:text-2xl font-medium">نسبة رضا المرضى</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات (Services) -->
+    <section id="services" class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">خدماتنا التخصصية</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- الخدمة 1: تصحيح الإبصار (الفيمتوليزك) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <img src="https://placehold.co/600x300/0d6efd/ffffff?text=Femto+LASIK+%26+Vision+Correction" alt="عملية الفيمتوليزك لتصحيح الإبصار" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">جراحات تصحيح الإبصار</h3>
+                        <p class="text-gray-600 mb-4">
+                            وداعاً للنظارات! نقدم أحدث تقنيات تصحيح الإبصار مثل الفيمتوليزك والليزك السطحي للوصول لأفضل دقة بصرية في دقائق.
+                        </p>
+                        <a href="#contact" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">استشر طبيبك <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- الخدمة 2: المياه البيضاء وزرع العدسات -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <img src="https://placehold.co/600x300/002d6b/ffffff?text=Cataract+Surgery+%26+Lens+Implants" alt="جراحة المياه البيضاء وزراعة العدسات" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">المياه البيضاء وزراعة العدسات</h3>
+                        <p class="text-gray-600 mb-4">
+                            استعادة نقاء الرؤية عبر تقنية الفاكو، مع إمكانية زراعة العدسات متعددة البؤر للتخلص من نظارات القراءة والمسافات.
+                        </p>
+                        <a href="#contact" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">تعرف على الخيارات <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- الخدمة 3: جراحات القرنية والقرنية المخروطية -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <img src="https://placehold.co/600x300/0d6efd/ffffff?text=Corneal+Surgery+%26+Keratoconus" alt="علاج القرنية المخروطية وتثبيت القرنية" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">علاج وجراحات القرنية</h3>
+                        <p class="text-gray-600 mb-4">
+                            علاج القرنية المخروطية بتثبيت القرنية بالليزر أو زراعة الحلقات بالفيمتوليزر، بالإضافة لعمليات زراعة القرنية المتقدمة.
+                        </p>
+                        <a href="#contact" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">اطلب استشارة <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- الخدمة 4: العدسات متعددة البؤرة -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <img src="https://placehold.co/600x300/002d6b/ffffff?text=ICL+Lenses+for+Severe+Myopia" alt="العدسات متعددة البؤرة للشيخوخة" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">عدسات قصر النظر الشديد ICL</h3>
+                        <p class="text-gray-600 mb-4">
+                            حل مثالي لحالات قصر النظر الشديد أو عدم صلاحية القرنية للليزك، لتمتع برؤية 4K بدون نظارات.
+                        </p>
+                        <a href="#contact" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">مزيد من التفاصيل <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+                
+                 <!-- الخدمة 5: عدسات ICL -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <img src="https://placehold.co/600x300/0d6efd/ffffff?text=Multifocal+Intraocular+Lenses" alt="عدسة ICL لتصحيح الإبصار" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">العدسات متعددة البؤرة</h3>
+                        <p class="text-gray-600 mb-4">
+                            تكنولوجيا متقدمة ضمن عمليات المياه البيضاء، تمكنك من رؤية المسافات والقراءة بوضوح دون الحاجة لنظارة.
+                        </p>
+                        <a href="#contact" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">مزيد من التفاصيل <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم شهادات وآراء المرضى (Testimonials) -->
+    <section id="testimonials" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">شهادات المرضى: تجاربكم هي دليلنا</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                
+                <!-- الرأي 1: Haytham Atef - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            دكتور احمد شاطر جدا في مجاله وربنا يبارك فيه ويحفظه بالتوفيق دائما ان شاء الله
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Haytham Atef</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+                
+                <!-- الرأي 2: Yara Mokhtar - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            دكتور ممتاز بصراحة ربنا يباركله
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Yara Mokhtar</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+                
+                <!-- الرأي 3: Yosria Saleh - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            ماشاء الله عليه ممتاز ربنا يبارك فيه ويحفظه ودكتور محترم جدا ربنا يوفقك
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Yosria Saleh</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+
+                <!-- الرأي 4: Ahmed El Sharkawy - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            ما شاء الله دكتور احمد يحيى ممتاز بصراحة... استمتعت جدا لشكوى الحالة التي قدمها بكل تفاصيله عن تجربة. ربنا يباركله.
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Ahmed El Sharkawy</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+                
+                <!-- الرأي 5: المريض الذي دعا في الكعبة (مجهول) - عربي (مؤثر) - لا يوجد نجوم، بل قلب -->
+                <div class="bg-[#e6f0ff] border-4 border-[#0d6efd] rounded-xl shadow-xl p-6 hover-lift transition duration-300 md:col-span-2 md:mx-auto xl:col-span-2 xl:mx-0">
+                    <div class="text-gray-800 text-xl font-semibold italic mb-6">
+                        <p>
+                            مساء الخير يا دكتور الحمد لله دعيت لحضرتك كتير في الروضه عند الكعبه ربنا ذكرني بحضرتك قدام الكعبه ربنا يسترها معاك
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-200">
+                        <i class="fas fa-heart text-red-500 text-xl"></i> <!-- أيقونة قلب بدلاً من النجوم -->
+                        <span class="font-bold text-[#002d6b]">مريض مجهول</span>
+                        <span class="text-sm text-gray-600">- رسالة خاصة</span>
+                    </div>
+                </div>
+
+
+                <!-- الرأي 6: Hossam Makramalla - إنجليزي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <!-- dir="ltr" لضبط اتجاه النص الإنجليزي -->
+                    <div class="text-gray-700 text-lg italic mb-6 text-left" dir="ltr">
+                        <p>
+                           I recently had a very positive experience with Dr. Ahmed and would highly recommend him to anyone looking for a skilled and compassionate doctor. He was incredibly friendly and made me feel at ease during my visit. His impressive level of experience and skills were evident throughout the appointment, and I felt confident in their ability to provide me with the best possible care.
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Hossam Makramalla</span>
+                        <span class="text-sm text-gray-500">- Patient</span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-lg text-gray-600 font-semibold">
+                    هذه جزء من آراء مرضانا على صفحات التواصل الاجتماعي.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الأسئلة الشائعة (FAQ Section) - Simplified Static -->
+    <section id="faq" class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">الأسئلة الشائعة</h2>
+            <p class="text-center text-lg text-gray-600 mb-10">نجيب على أهم استفساراتكم لتبدأ رحلتك نحو رؤية أوضح بثقة كاملة.</p>
+            
+            <!-- تم عرض الأسئلة بشكل ثابت بدون JavaScript Accordion -->
+            <div class="space-y-6">
+                
+                <!-- السؤال 1 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> ما هي أحدث وأكثر تقنية أمانًا لتصحيح الإبصار؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        أحدث وأفضل التقنيات عالميًا هي **الفيمتوليزك (Femto-LASIK)**، والتي تستخدم ليزر الفيمتو ثانية عالي الدقة لفصل طبقات القرنية بدون استخدام أي شفرات جراحية، مما يضمن أعلى درجات الأمان والدقة وسرعة التعافي.
+                    </p>
+                </div>
+
+                <!-- السؤال 2 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> هل عملية المياه البيضاء (الفاكو) تستغرق وقتًا طويلاً؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        لا، بفضل تقنية الفاكو (الموجات فوق الصوتية)، تعتبر العملية سريعة جدًا. تستغرق الجراحة نفسها حوالي 10 إلى 15 دقيقة فقط، ويخرج المريض في نفس اليوم بعد المتابعة المباشرة، مع فترة نقاهة قصيرة.
+                    </p>
+                </div>
+                
+                <!-- السؤال 3 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> ما هي الخيارات المتاحة لعلاج القرنية المخروطية؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        أفضل الخيارات تعتمد على حالة القرنية، وتشمل: **تثبيت القرنية بالليزر (Cross-Linking)** لإيقاف تطور المرض، و **زراعة حلقات القرنية بالفيمتوليزر** لتحسين شكل القرنية واستعادة جزء من الرؤية.
+                    </p>
+                </div>
+
+                <!-- السؤال 4 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> هل يمكن التخلص من نظارة القراءة والمسافات في آن واحد؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        نعم، يمكن ذلك من خلال **زراعة العدسات متعددة البؤر (Multifocal Lenses)** أثناء جراحة المياه البيضاء أو كإجراء تصحيحي. هذه العدسات تسمح بالرؤية الواضحة لجميع المسافات (القريب، المتوسط، البعيد).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم فروع العيادات (Clinics) -->
+    <section id="clinics" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">فروع عيادات الدكتور أحمد يحيى</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <!-- فرع مدينة نصر -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">مدينة نصر</h3>
+                    <p class="text-gray-700">العنوان التفصيلي (القاهرة)</p>
+                    <a href="#contact" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+                
+                <!-- فرع المعادي -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">المعادي</h3>
+                    <p class="text-gray-700">العنوان التفصيلي (القاهرة)</p>
+                    <a href="#contact" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+                
+                <!-- فرع العاشر من رمضان -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">العاشر من رمضان</h3>
+                    <p class="text-gray-700">العنوان التفصيلي (الشرقية)</p>
+                    <a href="#contact" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+                
+                 <!-- فرع مصر القديمة -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">مصر القديمة</h3>
+                    <p class="text-gray-700">فرع السيدة نفيسة (القاهرة)</p>
+                    <a href="#contact" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التواصل والحجز (Contact) -->
+    <section id="contact" class="py-16 md:py-24 header-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white relative z-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-12 text-center">تواصل واحجز موعدك الآن</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                
+                <!-- معلومات التواصل -->
+                <div class="lg:col-span-1 space-y-6 bg-[#002d6b] p-8 rounded-xl shadow-2xl">
+                    <h3 class="text-2xl font-bold border-b border-white/20 pb-2 mb-4">بيانات العيادات</h3>
+                    
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <i class="fas fa-phone-alt text-2xl text-[#0d6efd]"></i>
+                        <div>
+                            <p class="font-semibold">للحجز والاستفسار عبر الهاتف</p>
+                            <a href="tel:01033078657" class="text-xl font-bold text-white hover:text-[#0d6efd] transition">01033078657</a>
+                        </div>
+                    </div>
+                    
+                    <!-- رابط واتساب -->
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <i class="fab fa-whatsapp text-2xl text-[#0d6efd]"></i>
+                        <div>
+                            <p class="font-semibold">تواصل مباشرة عبر واتساب</p>
+                            <a href="https://wa.me/201033078657?text=مرحباً%20دكتور%20أحمد،%20أود%20الاستفسار%20عن%20مواعيد%20العيادة." target="_blank" class="text-xl font-bold text-white hover:text-[#0d6efd] transition">01033078657</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <i class="fas fa-map-marked-alt text-2xl text-[#0d6efd]"></i>
+                        <div>
+                            <p class="font-semibold">فروعنا الرئيسية</p>
+                            <p class="text-lg">مدينة نصر - المعادي - العاشر من رمضان - مصر القديمة</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/20">
+                        <h4 class="font-semibold mb-3">تابعنا على وسائل التواصل</h4>
+                        <div class="flex space-x-4 space-x-reverse justify-start">
+                            <a href="https://www.facebook.com/share/16xPiNqKKg/" target="_blank" class="text-white hover:text-[#0d6efd] text-3xl transition duration-300">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/dr.ahmed_yahiaa?igsh=bGV4NHVjMzRjZ3dl" target="_blank" class="text-white hover:text-[#0d6efd] text-3xl transition duration-300">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@ahmedyahia0892" target="_blank" class="text-white hover:text-[#0d6efd] text-3xl transition duration-300">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نموذج الحجز البسيط (ديناميكي) -->
+                <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-2xl text-gray-800">
+                    <h3 class="text-2xl font-bold text-[#002d6b] mb-4">إرسال طلب حجز موعد</h3>
+                    <p class="mb-6 text-gray-600">املأ النموذج وسنقوم بالاتصال بك لتأكيد الموعد المناسب وتحديد الفرع والوقت من خلال جداول العيادات المتاحة.</p>
+                    
+                    <form onsubmit="event.preventDefault(); showConfirmationMessage();" class="space-y-4">
+                        <input type="text" placeholder="الاسم الكامل" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]">
+                        <input type="tel" placeholder="رقم هاتفك (للتأكيد)" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]">
+                        <select required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]">
+                            <option value="" disabled selected>اختر الفرع الأقرب لك</option>
+                            <option value="nasr">مدينة نصر</option>
+                            <option value="maadi">المعادي</option>
+                            <option value="ramadan">العاشر من رمضان</option>
+                            <option value="old_egypt">مصر القديمة</option>
+                        </select>
+                        <textarea placeholder="سبب الاستشارة (تصحيح إبصار، مياه بيضاء، قرنية...)" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]"></textarea>
+                        <button type="submit" class="bg-[#0d6efd] w-full p-3 text-lg font-bold rounded-lg text-white hover:bg-[#0056b3] hover:scale-[1.01] transition duration-300">
+                            إرسال طلب الحجز <i class="fas fa-paper-plane mr-2"></i>
+                        </button>
+                    </form>
+                    
+                    <!-- رسالة التأكيد الديناميكية -->
+                    <div id="confirmation-message" class="hidden mt-6 bg-green-100 border-r-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
+                        <p class="font-bold">شكراً لك!</p>
+                        <p>تم استلام طلبك بنجاح، وسنتواصل معك خلال ساعات لتأكيد الموعد.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- تذييل الصفحة (Footer) -->
+    <footer class="bg-[#002d6b] text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mb-4 text-sm sm:text-base lg:text-lg font-bold">د. أحمد يحيى - استشاري جراحات القرنية و المياه البيضاء و الليزك</p>
+            <div class="flex justify-center space-x-6 space-x-reverse mb-4">
+                 <!-- روابط سريعة في التذييل -->
+                <a href="#home" class="text-gray-300 hover:text-[#0d6efd] text-sm">الرئيسية</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#about" class="text-gray-300 hover:text-[#0d6efd] text-sm">عن الدكتور</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#stats" class="text-gray-300 hover:text-[#0d6efd] text-sm">أرقامنا</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#services" class="text-gray-300 hover:text-[#0d6efd] text-sm">الخدمات</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#testimonials" class="text-gray-300 hover:text-[#0d6efd] text-sm">آراء المرضى</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#faq" class="text-gray-300 hover:text-[#0d6efd] text-sm">أسئلة شائعة</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#clinics" class="text-gray-300 hover:text-[#0d6efd] text-sm">الفروع</a>
+            </div>
+            <p class="text-sm text-gray-400">جميع الحقوق محفوظة &copy; <span id="current-year-footer"></span> للدكتور أحمد يحيى.</p>
+        </div>
+    </footer>
+    
+    <!-- زر الاتصال العائم (Floating CTA) - واتساب -->
+    <a href="https://wa.me/201033078657?text=مرحباً%20دكتور%20أحمد،%20أود%20الاستفسار%20عن%20مواعيد%20العيادة." target="_blank" class="fixed bottom-5 right-5 floating-cta flex items-center bg-green-500 text-white p-3 rounded-full shadow-2xl hover:bg-green-600 transition duration-300 transform hover:scale-105">
+        <i class="fab fa-whatsapp text-xl"></i>
+        <span class="mr-2 font-bold hidden sm:inline-block">تواصل عبر واتساب</span>
+    </a>
+
+    <script>
+        // كود JavaScript لإظهار رسالة التأكيد الديناميكية
+        function showConfirmationMessage() {
+            const message = document.getElementById('confirmation-message');
+            message.classList.remove('hidden');
+            
+            // إخفاء الرسالة بعد 5 ثوانٍ
+            setTimeout(() => {
+                message.classList.add('hidden');
+            }, 5000); 
+            
+            // إعادة تعيين النموذج
+            document.querySelector('form').reset();
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const scrollToTopButton = document.getElementById('scroll-to-top');
+            
+            // 1. تبديل قائمة الموبايل
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // إخفاء قائمة الموبايل عند الضغط على أي رابط بداخلها
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // 2. تحديث السنة في التذييل
+            const currentYearElement = document.getElementById('current-year-footer');
+            if(currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+
+            // 3. إظهار/إخفاء زر العودة للأعلى
+            if (scrollToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopButton.classList.add('show');
+                    } else {
+                        scrollToTopButton.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
