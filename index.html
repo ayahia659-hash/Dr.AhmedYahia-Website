@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>د. أحمد يحيى - استشاري جراحات القرنية و المياه البيضاء و الليزك</title>
+    
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- تحميل خط Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJzL31YtLzOQ/5qS/7u5lC4S+zC5g/2C1fXQ4Xm3lD+D8X5X8y5x5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* CSS مخصص لضمان الجمالية والتجاوب */
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header-bg {
+            /* تدرج لوني احترافي */
+            background: linear-gradient(135deg, #0d6efd 0%, #002d6b 100%);
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            color: #002d6b;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #0d6efd;
+            border-radius: 9999px;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        /* كلاس لإخفاء زر العودة للأعلى مبدئياً */
+        #scroll-to-top {
+            transition: opacity 0.3s, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 40; 
+        }
+        #scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* لضمان ظهور الـ CTA فوق كل شيء */
+        .floating-cta {
+            z-index: 50;
+        }
+
+        /* تنسيق الأزرار التفاعلية للأوقات */
+        .time-slot {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .time-slot.selected {
+            background-color: #002d6b !important;
+            color: #ffffff !important;
+            border-color: #0d6efd;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 45, 107, 0.3);
+        }
+
+        /* تنسيق خاص بالشات بوت */
+        #chatbot-window {
+            z-index: 60;
+            transition: all 0.3s ease-in-out;
+            transform: translateY(100vh) translateX(100vh); /* إخفاء خارج الشاشة */
+            width: calc(100% - 2rem); /* موبايل */
+            height: 85vh;
+            max-width: 400px;
+            bottom: 6rem; /* فوق زر الواتساب */
+            right: 1rem;
+        }
+        #chatbot-window.open {
+            transform: translateY(0) translateX(0); /* إظهار */
+        }
+        #messages-container {
+            max-height: calc(100% - 130px); /* ارتفاع منطقة الرسائل */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column-reverse; /* عرض الرسائل من الأسفل */
+            padding-bottom: 1rem; /* مساحة للأزرار في الأسفل */
+        }
+        .message-bubble {
+            max-width: 85%;
+            padding: 10px 15px;
+            border-radius: 1.5rem;
+            line-height: 1.4;
+            font-size: 0.95rem;
+        }
+        .user-message {
+            background-color: #0d6efd;
+            color: white;
+            align-self: flex-end;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 0.375rem;
+            border-bottom-left-radius: 1.5rem;
+        }
+        .bot-message {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            align-self: flex-start;
+            border-top-left-radius: 0.375rem;
+            border-top-right-radius: 1.5rem;
+            border-bottom-right-radius: 1.5rem;
+        }
+        .loading-dots span {
+            animation: blink 1.4s infinite;
+        }
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0%, 80%, 100% { opacity: 0.2; }
+            40% { opacity: 1; }
+        }
+        /* تنسيق أزرار الرد السريع */
+        .quick-reply-chip {
+            background-color: #002d6b;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin: 4px;
+            flex-shrink: 0;
+        }
+        .quick-reply-chip:hover {
+            background-color: #0d6efd;
+        }
+        
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-center: flex-start;
+            padding: 0 1rem;
+        }
+
+    </style>
+</head>
+<body class="antialiased bg-gray-50">
+
+    <!-- زر العودة للأعلى (Floating Scroll-to-Top Button) -->
+    <button id="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="fixed bottom-20 left-5 bg-[#0d6efd] text-white p-3 rounded-full shadow-2xl hover:bg-[#0056b3] transition duration-300 transform hover:scale-110">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+    
+    <!-- ********** Chatbot UI ********** -->
+    
+    <!-- نافذة الشات بوت -->
+    <div id="chatbot-window" class="fixed hidden bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden">
+        
+        <!-- رأس الشات بوت -->
+        <div class="header-bg text-white p-4 flex justify-between items-center rounded-t-xl">
+            <div class="flex items-center">
+                <i class="fas fa-robot text-2xl ml-2"></i>
+                <div>
+                    <h3 class="font-bold">مساعد د. أحمد يحيى</h3>
+                    <span class="text-xs text-green-300">متصل الآن</span>
+                </div>
+            </div>
+            <button onclick="toggleChatbot()" class="text-white hover:text-gray-300">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- منطقة الرسائل -->
+        <div id="messages-container" class="flex-grow p-4 space-y-4">
+            <!-- سيتم إضافة الرسائل هنا ديناميكياً -->
+            
+            <!-- رسالة الترحيب الثابتة -->
+            <div class="flex justify-start mb-2">
+                <div class="message-bubble bot-message shadow">
+                    مرحباً بك! أنا المساعد الافتراضي للدكتور أحمد يحيى. كيف يمكنني مساعدتك اليوم؟ يرجى العلم أنني لا أقدم تشخيصات طبية، ولحجز موعد يرجى الضغط على زر **'حجز موعد'** أو كتابة استفسارك.
+                </div>
+            </div>
+            
+             <!-- أزرار الرد السريع -->
+            <div class="chips-container" id="quick-replies">
+                <!-- يتم ملؤها بواسطة JavaScript -->
+            </div>
+        </div>
+
+        <!-- شريط الإدخال -->
+        <div class="p-4 border-t border-gray-200">
+            <div id="loading-indicator" class="hidden text-sm text-gray-500 mb-2">
+                <span class="loading-dots">
+                    جاري الكتابة<span class="text-2xl">.</span><span class="text-2xl">.</span><span class="text-2xl">.</span>
+                </span>
+            </div>
+            <div class="flex items-center">
+                <input type="text" id="chat-input" placeholder="اكتب رسالتك..." 
+                       class="w-full p-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd] transition">
+                <button onclick="sendMessage()" id="send-button"
+                        class="mr-2 bg-[#0d6efd] text-white p-3 rounded-full hover:bg-[#0056b3] transition duration-300 disabled:bg-gray-400">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- زر تفعيل الشات بوت -->
+    <button id="chatbot-toggle" onclick="toggleChatbot()" 
+            class="fixed bottom-5 right-5 floating-cta flex items-center bg-[#0d6efd] text-white p-4 rounded-full shadow-2xl hover:bg-[#0056b3] transition duration-300 transform hover:scale-110">
+        <i class="fas fa-comment-dots text-xl"></i>
+    </button>
+    <!-- ********** نهاية Chatbot UI ********** -->
+
+    <!-- شريط التنقل (Navbar) -->
+    <nav class="sticky top-0 z-50 bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- شعار الموقع -->
+                <div class="flex-shrink-0">
+                    <span class="text-sm sm:text-lg lg:text-xl font-black text-[#002d6b]">د. أحمد يحيى - استشاري جراحات القرنية و المياه البيضاء و الليزك</span>
+                </div>
+                <!-- قائمة التنقل (الديسكتوب) -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4 space-x-reverse">
+                        <a href="#home" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">الرئيسية</a>
+                        <a href="#about" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">عن الدكتور</a>
+                        <a href="#stats" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">أرقامنا</a>
+                        <a href="#services" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">الخدمات</a>
+                        <a href="#testimonials" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">آراء المرضى</a>
+                        <a href="#faq" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">أسئلة شائعة</a>
+                        <a href="#clinics" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">فروعنا</a>
+                        <a href="#interactive-schedule" class="text-gray-900 hover:text-[#0d6efd] px-3 py-2 rounded-md text-base font-medium transition duration-150">حجز موعد</a>
+                        <a href="#contact" class="bg-[#0d6efd] text-white px-4 py-2 rounded-full text-base font-medium hover:scale-105 transition duration-300">اتصل الآن</a>
+                    </div>
+                </div>
+                <!-- زر القائمة في الموبايل -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#0d6efd] focus:outline-none">
+                        <span class="sr-only">فتح القائمة الرئيسية</span>
+                        <i class="fas fa-bars h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- قائمة الموبايل الديناميكية -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-100">
+                <a href="#home" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
+                <a href="#about" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">عن الدكتور</a>
+                <a href="#stats" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">أرقامنا</a>
+                <a href="#services" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">الخدمات</a>
+                <a href="#testimonials" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">آراء المرضى</a>
+                <a href="#faq" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">أسئلة شائعة</a>
+                <a href="#clinics" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">فروعنا</a>
+                <a href="#interactive-schedule" class="text-gray-900 hover:bg-[#0d6efd] hover:text-white block px-3 py-2 rounded-md text-base font-medium">حجز موعد</a>
+                <a href="#contact" class="bg-[#0d6efd] text-white block px-3 py-2 rounded-md text-base font-medium mt-2">اتصل الآن</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- القسم الرئيسي (Hero Section) -->
+    <header id="home" class="header-bg relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- محتوى النص -->
+                <div class="text-white">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">
+                        سنوات من الخبرة في أدق جراحات العيون.
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-light mb-8">
+                        الدكتور أحمد يحيى - استشاري طب وجراحة العيون. رؤيتك في أيدٍ أمينة.
+                    </p>
+                    <a href="#interactive-schedule" class="bg-[#0d6efd] inline-flex items-center justify-center px-8 py-3 border border-transparent text-lg font-bold rounded-full text-white hover:bg-[#0056b3] hover:scale-105 transition duration-300 shadow-xl">
+                        احجز موعدك الآن <i class="fas fa-calendar-alt mr-2"></i>
+                    </a>
+                </div>
+                <!-- صورة الدكتور (مسار نسبي) -->
+                <div class="hidden md:flex justify-center">
+                    <img src="images/doctor.png" alt="صورة الدكتور أحمد يحيى في غرفة العمليات" class="w-full max-w-sm rounded-3xl shadow-2xl object-cover h-auto border-4 border-white aspect-square">
+                </div>
+            </div>
+        </div>
+        <!-- شكل موجة سفلي جمالي -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden" style="height: 150px;">
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+                <path d="M0.00,49.98 C150.00,150.00 349.20,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #f8f9fa;"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- قسم عن الدكتور والمؤهلات والخدمات المميزة -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">عن الدكتور أحمد يحيى</h2>
+            
+            <div class="lg:grid lg:grid-cols-3 lg:gap-10 items-start">
+                <!-- نبذة عن الدكتور والمؤهلات -->
+                <div class="lg:col-span-2 space-y-6 text-gray-700 text-lg mb-8 lg:mb-0">
+                    <p>
+                        الدكتور أحمد يحيى هو استشاري طب وجراحة العيون، متخصص بخبرة واسعة في أدق وأحدث جراحات العيون، لضمان أعلى مستويات الدقة والأمان والرعاية لمرضاه.
+                    </p>
+
+                    <!-- قائمة المؤهلات الجديدة -->
+                    <h3 class="text-xl font-bold text-[#002d6b] pt-4 border-t border-gray-200">المؤهلات العلمية والزمالات</h3>
+                    <ul class="space-y-3 list-none p-0 text-gray-800">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#0d6efd] text-xl ml-3 mt-1"></i>
+                            <div>
+                                <span class="font-bold">دكتوراه طب وجراحة العيون</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#0d6efd] text-xl ml-3 mt-1"></i>
+                            <div>
+                                <span class="font-bold">زمالة كلية الجراحين الملكية</span> - جلاسجو - المملكة المتحدة
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#0d6efd] text-xl ml-3 mt-1"></i>
+                            <div>
+                                <span class="font-bold">زمالة المجلس العالمي للعيون</span> - كامبريدج - المملكة المتحدة
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- نبذة عن التخصصات (بدون نجوم) -->
+                    <h3 class="text-xl font-bold text-[#002d6b] pt-4 border-t border-gray-200">التخصصات الأساسية</h3>
+                    <!-- تم تعديل القائمة لحذف النقاط التلقائية واستخدام محاذاة flex بدلاً منها -->
+                    <ul class="space-y-3 list-none text-[#002d6b] font-semibold">
+                        <li class="flex items-start">
+                            <!-- تم إضافة الأيقونة هنا -->
+                            <i class="fas fa-eye-slash text-[#0d6efd] ml-2 mt-1"></i>
+                            جراحات تصحيح الإبصار (الليزك والفيمتوليزك): للتخلص نهائياً من النظارات والعدسات اللاصقة.
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-eye text-[#0d6efd] ml-2 mt-1"></i> 
+                            جراحات المياه البيضاء (الفاكو وزرع العدسات): باستخدام أحدث التقنيات لاستعادة الرؤية الواضحة.
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-hand-holding-medical text-[#0d6efd] ml-2 mt-1"></i> 
+                            جراحات القرنية (زراعة القرنية وحلقات القرنية): علاج متقدم لحالات القرنية المخروطية ومشاكل القرنية الأخرى.
+                        </li>
+                    </ul>
+                    <a href="#services" class="text-[#0d6efd] hover:text-[#0056b3] font-bold inline-block mt-4 transition duration-150">اكتشف المزيد عن خدماتنا <i class="fas fa-arrow-left mr-2"></i></a>
+                </div>
+                
+                <!-- صورة الدكتور (في مكان الشعار) -->
+                <div class="lg:col-span-1 flex justify-center">
+                    <!-- تم استبدال اللوجو بصورة الدكتور -->
+                    <img src="images/doctor.png" alt="صورة الدكتور أحمد يحيى" class="w-full max-w-xs rounded-full p-4 border border-gray-200 shadow-xl object-contain aspect-square">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الإحصائيات والأرقام (Stats) -->
+    <section id="stats" class="header-bg py-16 md:py-24 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-12">أرقام تتحدث عن ثقتكم ونجاحنا</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                
+                <!-- إحصائية 1: سنوات الخبرة -->
+                <div class="p-6 bg-white/10 rounded-xl backdrop-blur-sm shadow-xl hover-lift transition duration-300">
+                    <p class="text-5xl md:text-6xl font-extrabold text-[#ffffff] mb-3">+10</p>
+                    <p class="text-xl md:text-2xl font-medium">سنوات من الخبرة</p>
+                </div>
+                
+                <!-- إحصائية 2: العمليات الناجحة -->
+                <div class="p-6 bg-white/10 rounded-xl backdrop-blur-sm shadow-xl hover-lift transition duration-300">
+                    <p class="text-5xl md:text-6xl font-extrabold text-[#ffffff] mb-3">+5000</p>
+                    <p class="text-xl md:text-2xl font-medium">عملية ناجحة</p>
+                </div>
+                
+                <!-- إحصائية 3: نسبة رضا المرضى -->
+                <div class="p-6 bg-white/10 rounded-xl backdrop-blur-sm shadow-xl hover-lift transition duration-300">
+                    <p class="text-5xl md:text-6xl font-extrabold text-[#ffffff] mb-3">99%</p>
+                    <p class="text-xl md:text-2xl font-medium">نسبة رضا المرضى</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات (Services) -->
+    <section id="services" class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">خدماتنا التخصصية</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- الخدمة 1: تصحيح الإبصار (مسار نسبي) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <!-- تم استعادة مسار الصورة الأصلية -->
+                    <img src="images/lasik.png" alt="عملية الفيمتوليزك لتصحيح الإبصار" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3 flex items-center">
+                            <i class="fas fa-eye-slash ml-2 text-[#0d6efd]"></i> جراحات تصحيح الإبصار
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            وداعاً للنظارات! نقدم أحدث تقنيات تصحيح الإبصار مثل الفيمتوليزك والليزك السطحي للوصول لأفضل دقة بصرية في دقائق.
+                        </p>
+                        <a href="#interactive-schedule" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">احجز استشارة <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- الخدمة 2: المياه البيضاء وزرع العدسات (مسار نسبي) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <!-- تم استعادة مسار الصورة الأصلية -->
+                    <img src="images/cataract.png" alt="جراحة المياه البيضاء وزراعة العدسات" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">المياه البيضاء وزراعة العدسات</h3>
+                        <p class="text-gray-600 mb-4">
+                            استعادة نقاء الرؤية عبر تقنية الفاكو، مع إمكانية زراعة العدسات متعددة البؤر للتخلص من نظارات القراءة والمسافات.
+                        </p>
+                        <a href="#interactive-schedule" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">احجز استشارة <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- الخدمة 3: جراحات القرنية والقرنية المخروطية (مسار نسبي) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <!-- تم استعادة مسار الصورة الأصلية -->
+                    <img src="images/cornea.png" alt="علاج القرنية المخروطية وتثبيت القرنية" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">علاج وجراحات القرنية</h3>
+                        <p class="text-gray-600 mb-4">
+                            علاج القرنية المخروطية بتثبيت القرنية بالليزر أو زراعة الحلقات بالفيمتوليزر، بالإضافة لعمليات زراعة القرنية المتقدمة.
+                        </p>
+                        <a href="#interactive-schedule" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">احجز استشارة <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- الخدمة 4: عدسات قصر النظر الشديد ICL (مسار نسبي) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <!-- تم استعادة مسار الصورة الأصلية -->
+                    <img src="images/icl.png" alt="عدسات قصر النظر الشديد ICL" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">عدسات قصر النظر الشديد ICL</h3>
+                        <p class="text-gray-600 mb-4">
+                            حل مثالي لحالات قصر النظر الشديد أو عدم صلاحية القرنية للليزك، لتمتع برؤية 4K بدون نظارات.
+                        </p>
+                        <a href="#interactive-schedule" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">احجز استشارة <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+                
+                 <!-- الخدمة 5: العدسات متعددة البؤرة (مسار نسبي) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-xl hover-lift transition duration-300">
+                    <!-- تم استعادة مسار الصورة الأصلية -->
+                    <img src="images/multifocal.png" alt="العدسات متعددة البؤرة" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[#002d6b] mb-3">العدسات متعددة البؤرة</h3>
+                        <p class="text-gray-600 mb-4">
+                            تكنولوجيا متقدمة ضمن عمليات المياه البيضاء، تمكنك من رؤية المسافات والقراءة بوضوح دون الحاجة لنظارة.
+                        </p>
+                        <a href="#interactive-schedule" class="text-[#0d6efd] hover:text-[#0056b3] font-medium">احجز استشارة <i class="fas fa-chevron-left mr-1 text-sm"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم شهادات وآراء المرضى (Testimonials) -->
+    <section id="testimonials" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">شهادات المرضى: تجاربكم هي دليلنا</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                
+                <!-- الرأي 1: Haytham Atef - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            دكتور احمد شاطر جدا في مجاله وربنا يبارك فيه ويحفظه بالتوفيق دائما ان شاء الله
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Haytham Atef</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+                
+                <!-- الرأي 2: Yara Mokhtar - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            دكتور ممتاز بصراحة ربنا يباركله
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Yara Mokhtar</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+                
+                <!-- الرأي 3: Yosria Saleh - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            ماشاء الله عليه ممتاز ربنا يبارك فيه ويحفظه ودكتور محترم جدا ربنا يوفقك
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Yosria Saleh</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+
+                <!-- الرأي 4: Ahmed El Sharkawy - عربي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <div class="text-gray-700 text-lg italic mb-6">
+                        <p>
+                            ما شاء الله دكتور احمد يحيى ممتاز بصراحة... استمتعت جدا لشكوى الحالة التي قدمها بكل تفاصيله عن تجربة. ربنا يباركله.
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5 space-x-reverse">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Ahmed El Sharkawy</span>
+                        <span class="text-sm text-gray-500">- مريض</span>
+                    </div>
+                </div>
+                
+                <!-- الرأي 5: المريض الذي دعا في الكعبة (Samya) - عربي (مؤثر) - لا يوجد نجوم، بل قلب -->
+                <div class="bg-[#e6f0ff] border-4 border-[#0d6efd] rounded-xl shadow-xl p-6 hover-lift transition duration-300 md:col-span-2 md:mx-auto xl:col-span-2 xl:mx-0">
+                    <div class="text-gray-800 text-xl font-semibold italic mb-6">
+                        <p>
+                            مساء الخير يا دكتور الحمد لله دعيت لحضرتك كتير في الروضه عند الكعبه ربنا ذكرني بحضرتك قدام الكعبه ربنا يسترها معاك
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-200">
+                        <i class="fas fa-heart text-red-500 text-xl"></i> <!-- أيقونة قلب بدلاً من النجوم -->
+                        <span class="font-bold text-[#002d6b]">Samya</span> <!-- الاسم المحدث -->
+                        <span class="text-sm text-gray-600">- رسالة خاصة</span>
+                    </div>
+                </div>
+
+
+                <!-- الرأي 6: Hossam Makramalla - إنجليزي -->
+                <div class="bg-white rounded-xl shadow-xl p-6 hover-lift transition duration-300">
+                    <!-- dir="ltr" لضبط اتجاه النص الإنجليزي -->
+                    <div class="text-gray-700 text-lg italic mb-6 text-left" dir="ltr">
+                        <p>
+                           I recently had a very positive experience with Dr. Ahmed and would highly recommend him to anyone looking for a skilled and compassionate doctor. He was incredibly friendly and made me feel at ease during my visit. His impressive level of experience and skills were evident throughout the appointment, and I felt confident in their ability to provide me with the best possible care.
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                        <!-- 5 نجوم -->
+                        <div class="flex space-x-0.5">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="font-bold text-[#002d6b]">Hossam Makramalla</span>
+                        <span class="text-sm text-gray-500">- Patient</span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-lg text-gray-600 font-semibold">
+                    هذه جزء من آراء مرضانا على صفحات التواصل الاجتماعي.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الأسئلة الشائعة (FAQ Section) - Simplified Static -->
+    <section id="faq" class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">الأسئلة الشائعة</h2>
+            <p class="text-center text-lg text-gray-600 mb-10">نجيب على أهم استفساراتكم لتبدأ رحلتك نحو رؤية أوضح بثقة كاملة.</p>
+            
+            <!-- تم عرض الأسئلة بشكل ثابت بدون JavaScript Accordion -->
+            <div class="space-y-6">
+                
+                <!-- السؤال 1 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> ما هي أحدث وأكثر تقنية أمانًا لتصحيح الإبصار؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        أحدث وأفضل التقنيات عالميًا هي الفيمتوليزك (Femto-LASIK)، والتي تستخدم ليزر الفيمتو ثانية عالي الدقة لفصل طبقات القرنية بدون استخدام أي شفرات جراحية، مما يضمن أعلى درجات الأمان والدقة وسرعة التعافي.
+                    </p>
+                </div>
+
+                <!-- السؤال 2 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> هل عملية المياه البيضاء (الفاكو) تستغرق وقتًا طويلاً؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        لا، بفضل تقنية الفاكو (الموجات فوق الصوتية)، تعتبر العملية سريعة جدًا. تستغرق الجراحة نفسها حوالي 10 إلى 15 دقيقة فقط، ويخرج المريض في نفس اليوم بعد المتابعة المباشرة، مع فترة نقاهة قصيرة.
+                    </p>
+                </div>
+                
+                <!-- السؤال 3 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> ما هي الخيارات المتاحة لعلاج القرنية المخروطية؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        أفضل الخيارات تعتمد على حالة القرنية، وتشمل: تثبيت القرنية بالليزر (Cross-Linking) لإيقاف تطور المرض، و زراعة حلقات القرنية بالفيمتوليزر لتحسين شكل القرنية واستعادة جزء من الرؤية.
+                    </p>
+                </div>
+
+                <!-- السؤال 4 -->
+                <div class="bg-white rounded-xl shadow-xl p-5">
+                    <h3 class="text-lg font-bold text-[#002d6b] mb-2 flex items-center"><i class="fas fa-question-circle text-[#0d6efd] ml-3"></i> هل يمكن التخلص من نظارة القراءة والمسافات في آن واحد؟</h3>
+                    <p class="text-gray-700 pr-8">
+                        نعم، يمكن ذلك من خلال زراعة العدسات متعددة البؤر (Multifocal Lenses) أثناء جراحة المياه البيضاء أو كإجراء تصحيحي. هذه العدسات تسمح بالرؤية الواضحة لجميع المسافات (القريب، المتوسط، البعيد).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم فروع العيادات (Clinics) - يستخدم عناوين عامة -->
+    <section id="clinics" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-12 text-center relative">فروع عيادات الدكتور أحمد يحيى</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <!-- فرع مدينة نصر -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">مدينة نصر</h3>
+                    <p class="text-gray-700">القاهرة - الموقع الأول</p>
+                    <a href="#interactive-schedule" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+                
+                <!-- فرع المعادي (زهراء) -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">المعادي (زهراء)</h3>
+                    <p class="text-gray-700">القاهرة - الموقع الثاني</p>
+                    <a href="#interactive-schedule" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+                
+                <!-- فرع العاشر من رمضان -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">العاشر من رمضان</h3>
+                    <p class="text-gray-700">مواقع متعددة بالمدينة</p>
+                    <a href="#interactive-schedule" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+                
+                 <!-- فرع مصر القديمة -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                    <i class="fas fa-map-marker-alt text-4xl text-[#0d6efd] mb-4"></i>
+                    <h3 class="text-xl font-bold text-[#002d6b] mb-2">مصر القديمة</h3>
+                    <p class="text-gray-700">القاهرة - فرع السيدة نفيسة</p>
+                    <a href="#interactive-schedule" class="mt-4 inline-block text-sm bg-[#0d6efd] text-white px-3 py-1 rounded-full font-medium hover:bg-[#0056b3]">احجز موعد</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ********** قسم نظام الحجز التفاعلي الجديد ********** -->
+    <section id="interactive-schedule" class="py-16 md:py-24 bg-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-extrabold mb-8 text-center relative">اختر موعدك المناسب</h2>
+            <p class="text-center text-lg text-gray-700 mb-10">من فضلك اختر المدينة، ثم الفرع، واليوم، لترى الأوقات المتاحة للحجز.</p>
+
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl space-y-6">
+                
+                <!-- خطوة 1: اختيار المدينة -->
+                <div>
+                    <label for="city-select" class="block text-lg font-bold text-[#002d6b] mb-2"><i class="fas fa-map-marker-alt ml-2 text-[#0d6efd]"></i> 1. اختر المنطقة/المدينة:</label>
+                    <select id="city-select" onchange="populateBranchDropdown()" 
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd] text-gray-800 bg-white">
+                        <option value="" disabled selected>اختر المدينة أولاً</option>
+                    </select>
+                </div>
+
+                <!-- خطوة 2: اختيار الفرع -->
+                <div>
+                    <label for="branch-select" class="block text-lg font-bold text-[#002d6b] mb-2"><i class="fas fa-clinic-medical ml-2 text-[#0d6efd]"></i> 2. اختر الفرع:</label>
+                    <select id="branch-select" onchange="populateDayDropdown()" disabled
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd] text-gray-500 bg-white">
+                        <option value="" disabled selected>اختر الفرع</option>
+                    </select>
+                </div>
+
+                <!-- خطوة 3: اختيار اليوم -->
+                <div>
+                    <label for="day-select" class="block text-lg font-bold text-[#002d6b] mb-2"><i class="fas fa-calendar-day ml-2 text-[#0d6efd]"></i> 3. اختر اليوم:</label>
+                    <select id="day-select" onchange="displayAvailableTimes()" disabled
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd] text-gray-500 bg-white">
+                        <option value="" disabled selected>اختر اليوم</option>
+                    </select>
+                </div>
+                
+                <!-- منطقة عرض الأوقات المتاحة -->
+                <div class="pt-6 border-t border-gray-200">
+                    <h4 class="text-lg font-bold text-[#002d6b] mb-4 flex items-center"><i class="fas fa-clock ml-2 text-[#0d6efd]"></i> 4. الأوقات المتاحة للحجز:</h4>
+                    <div id="times-container" class="grid grid-cols-2 sm:grid-cols-3 gap-4 min-h-[50px] items-center justify-center text-center">
+                        <p class="text-gray-500 col-span-full" id="schedule-placeholder">اختر من القوائم أعلاه لترى الأوقات.</p>
+                    </div>
+                </div>
+
+                <!-- رسالة التأكيد للحجز المختار -->
+                <div id="booking-summary" class="hidden mt-6 bg-[#e6f0ff] border-4 border-[#0d6efd] text-[#002d6b] p-4 rounded-lg text-center font-bold">
+                    <p class="text-xl">تم اختيار الموعد بنجاح!</p>
+                    <p class="text-lg mt-2">سنقوم بالتواصل معك لتأكيد الحجز في: <span id="summary-details" class="text-[#0d6efd] font-extrabold"></span></p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- ********************************************* -->
+
+
+    <!-- قسم التواصل والحجز (Contact) -->
+    <section id="contact" class="py-16 md:py-24 header-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white relative z-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-12 text-center">تواصل واحجز موعدك الآن</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                
+                <!-- معلومات التواصل -->
+                <div class="lg:col-span-1 space-y-6 bg-[#002d6b] p-8 rounded-xl shadow-2xl">
+                    <h3 class="text-2xl font-bold border-b border-white/20 pb-2 mb-4">بيانات العيادات</h3>
+                    
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <i class="fas fa-phone-alt text-2xl text-[#0d6efd]"></i>
+                        <div>
+                            <p class="font-semibold">للحجز والاستفسار عبر الهاتف</p>
+                            <a href="tel:01033078657" class="text-xl font-bold text-white hover:text-[#0d6efd] transition">01033078657</a>
+                        </div>
+                    </div>
+                    
+                    <!-- رابط واتساب -->
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <i class="fab fa-whatsapp text-2xl text-[#0d6efd]"></i>
+                        <div>
+                            <p class="font-semibold">تواصل مباشرة عبر واتساب</p>
+                            <a href="https://wa.me/201033078657?text=مرحباً%20دكتور%20أحمد،%20أود%20الاستفسار%20عن%20مواعيد%20العيادة." target="_blank" class="text-xl font-bold text-white hover:text-[#0d6efd] transition">01033078657</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <i class="fas fa-map-marked-alt text-2xl text-[#0d6efd]"></i>
+                        <div>
+                            <p class="font-semibold">فروعنا الرئيسية</p>
+                            <p class="text-lg">مدينة نصر - المعادي - العاشر من رمضان - مصر القديمة</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/20">
+                        <h4 class="font-semibold mb-3">تابعنا على وسائل التواصل</h4>
+                        <div class="flex space-x-4 space-x-reverse justify-start">
+                            <a href="https://www.facebook.com/share/16xPiNqKKg/" target="_blank" class="text-white hover:text-[#0d6efd] text-3xl transition duration-300">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/dr.ahmed_yahiaa?igsh=bGV4NHVjMzRjZ3dl" target="_blank" class="text-white hover:text-[#0d6efd] text-3xl transition duration-300">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@ahmedyahia0892" target="_blank" class="text-white hover:text-[#0d6efd] text-3xl transition duration-300">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نموذج الحجز البسيط (ديناميكي) -->
+                <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-2xl text-gray-800">
+                    <h3 class="text-2xl font-bold text-[#002d6b] mb-4">إرسال طلب حجز موعد</h3>
+                    <p class="mb-6 text-gray-600">املأ النموذج وسنقوم بالاتصال بك لتأكيد الموعد المناسب وتحديد الفرع والوقت من خلال جداول العيادات المتاحة.</p>
+                    
+                    <form onsubmit="event.preventDefault(); showConfirmationMessage();" class="space-y-4">
+                        <input type="text" placeholder="الاسم الكامل" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]">
+                        <input type="tel" placeholder="رقم هاتفك (للتأكيد)" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]">
+                        <select required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]">
+                            <option value="" disabled selected>اختر الفرع الأقرب لك</option>
+                            <option value="nasr">مدينة نصر</option>
+                            <option value="maadi">المعادي</option>
+                            <option value="ramadan">العاشر من رمضان</option>
+                            <option value="old_egypt">مصر القديمة</option>
+                        </select>
+                        <textarea placeholder="سبب الاستشارة (تصحيح إبصار، مياه بيضاء، قرنية...)" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0d6efd] focus:border-[#0d6efd]"></textarea>
+                        <button type="submit" class="bg-[#0d6efd] w-full p-3 text-lg font-bold rounded-lg text-white hover:bg-[#0056b3] hover:scale-[1.01] transition duration-300">
+                            إرسال طلب الحجز <i class="fas fa-paper-plane mr-2"></i>
+                        </button>
+                    </form>
+                    
+                    <!-- رسالة التأكيد الديناميكية -->
+                    <div id="confirmation-message" class="hidden mt-6 bg-green-100 border-r-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
+                        <p class="font-bold">شكراً لك!</p>
+                        <p>تم استلام طلبك بنجاح، وسنتواصل معك خلال ساعات لتأكيد الموعد.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- تذييل الصفحة (Footer) -->
+    <footer class="bg-[#002d6b] text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mb-4 text-sm sm:text-base lg:text-lg font-bold">د. أحمد يحيى - استشاري جراحات القرنية و المياه البيضاء و الليزك</p>
+            <div class="flex justify-center space-x-6 space-x-reverse mb-4 flex-wrap gap-2">
+                 <!-- روابط سريعة في التذييل -->
+                <a href="#home" class="text-gray-300 hover:text-[#0d6efd] text-sm">الرئيسية</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#about" class="text-gray-300 hover:text-[#0d6efd] text-sm">عن الدكتور</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#services" class="text-gray-300 hover:text-[#0d6efd] text-sm">الخدمات</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#clinics" class="text-gray-300 hover:text-[#0d6efd] text-sm">الفروع</a>
+                <span class="text-gray-500 text-sm">|</span>
+                <a href="#interactive-schedule" class="text-gray-300 hover:text-[#0d6efd] text-sm">حجز موعد</a>
+            </div>
+            <p class="text-sm text-gray-400">جميع الحقوق محفوظة &copy; <span id="current-year-footer"></span> للدكتور أحمد يحيى.</p>
+        </div>
+    </footer>
+    
+    <!-- زر الاتصال العائم (Floating CTA) - واتساب -->
+    <a href="https://wa.me/201033078657?text=مرحباً%20دكتور%20أحمد،%20أود%20الاستفسار%20عن%20مواعيد%20العيادة." target="_blank" class="fixed bottom-5 left-20 floating-cta flex items-center bg-green-500 text-white p-3 rounded-full shadow-2xl hover:bg-green-600 transition duration-300 transform hover:scale-105">
+        <i class="fab fa-whatsapp text-xl"></i>
+        <span class="mr-2 font-bold hidden sm:inline-block">تواصل عبر واتساب</span>
+    </a>
+
+    <script>
+        // البيانات الخاصة بالمواعيد (مقسمة ليسهل البحث والتصفية)
+        const fullSchedule = [
+            {
+                city: "العاشر من رمضان",
+                clinics: [
+                    {
+                        name: "الفرع الأول بالمدينة",
+                        id: "ramadan1",
+                        schedule: [
+                            { day: "الأحد", times: ["٧:٣٠-٩:٣٠ م"] },
+                            { day: "الاثنين", times: ["٨:٣٠-١٠:٣٠ م"] },
+                            { day: "الثلاثاء", times: ["٦-٨ م"] },
+                            { day: "الأربعاء", times: ["٨-١٠ م"] },
+                            { day: "الخميس", times: ["٨-١٠ م"] },
+                        ]
+                    },
+                    {
+                        name: "الفرع الثاني بالمدينة",
+                        id: "ramadan2",
+                        schedule: [
+                            { day: "الأحد", times: ["٥-٧ م"] },
+                            { day: "الثلاثاء", times: ["٨-١٠ م"] },
+                        ]
+                    }
+                ]
+            },
+            {
+                city: "القاهرة الكبرى",
+                clinics: [
+                    {
+                        name: "فرع مدينة نصر ( الموقع 1 )",
+                        id: "nasr1",
+                        schedule: [
+                            { day: "الاثنين", times: ["٥-٧ م"] },
+                            { day: "الخميس", times: ["٥-٧ م"] },
+                        ]
+                    },
+                    {
+                        name: "فرع المعادي ( زهراء )",
+                        id: "maadi_zahraa",
+                        schedule: [
+                            { day: "الاثنين", times: ["١٢-٣ ظ"] },
+                            { day: "الخميس", times: ["١٢-٣ ظ"] },
+                        ]
+                    },
+                    {
+                        name: "فرع مصر القديمة ( السيدة نفيسة )",
+                        id: "old_egypt",
+                        schedule: [
+                            { day: "السبت", times: ["٣-٧ م"] },
+                        ]
+                    },
+                    {
+                        // تم تعديل الاسم والبيانات هنا
+                        name: "فرع كورنيش المعادي",
+                        id: "maadi_corniche",
+                        schedule: [
+                            { day: "السبت", times: ["٨-١٠ م"] }, // موعد جديد
+                            { day: "الاثنين", times: ["٣-٥ ع"] },
+                            { day: "الخميس", times: ["٣-٥ ع"] },
+                        ]
+                    }
+                ]
+            }
+        ];
+        
+        // تحويل جدول المواعيد إلى نص موحد لكي يستخدمه الشات بوت
+        function formatScheduleForLLM() {
+            let text = "";
+            fullSchedule.forEach(cityGroup => {
+                text += `\n**المدينة: ${cityGroup.city}**\n`;
+                cityGroup.clinics.forEach(clinic => {
+                    text += `  - **الفرع:** ${clinic.name} - **الأيام المتاحة:** `;
+                    const days = clinic.schedule.map(item => `${item.day} (${item.times.join(' و ')})`).join(' | ');
+                    text += `${days}\n`;
+                });
+            });
+            return text;
+        }
+
+
+        // العناصر الأساسية لنظام الحجز
+        const citySelect = document.getElementById('city-select');
+        const branchSelect = document.getElementById('branch-select');
+        const daySelect = document.getElementById('day-select');
+        const timesContainer = document.getElementById('times-container');
+        const schedulePlaceholder = document.getElementById('schedule-placeholder');
+        const bookingSummary = document.getElementById('booking-summary');
+        const summaryDetails = document.getElementById('summary-details');
+
+        // **************** وظائف نظام الحجز التفاعلي ****************
+
+        // 1. ملء قائمة المدن عند تحميل الصفحة
+        function populateCityDropdown() {
+            citySelect.innerHTML = '<option value="" disabled selected>اختر المدينة أولاً</option>';
+            branchSelect.innerHTML = '<option value="" disabled selected>اختر الفرع</option>';
+            daySelect.innerHTML = '<option value="" disabled selected>اختر اليوم</option>';
+
+            branchSelect.disabled = true;
+            daySelect.disabled = true;
+            
+            timesContainer.innerHTML = '<p class="text-gray-500 col-span-full">اختر من القوائم أعلاه لترى الأوقات.</p>';
+            bookingSummary.classList.add('hidden');
+
+
+            fullSchedule.forEach(group => {
+                const option = document.createElement('option');
+                option.value = group.city;
+                option.textContent = group.city;
+                citySelect.appendChild(option);
+            });
+
+            if (citySelect.value) {
+                populateBranchDropdown();
+            }
+        }
+
+        // 2. ملء قائمة الفروع بناءً على المدينة المختارة
+        function populateBranchDropdown() {
+            const selectedCity = citySelect.value;
+            branchSelect.innerHTML = '<option value="" disabled selected>اختر الفرع</option>';
+            daySelect.innerHTML = '<option value="" disabled selected>اختر اليوم</option>';
+            
+            daySelect.disabled = true;
+            timesContainer.innerHTML = '<p class="text-gray-500 col-span-full">اختر الفرع ثم اليوم.</p>';
+            bookingSummary.classList.add('hidden');
+
+
+            if (!selectedCity) return;
+            
+            branchSelect.disabled = false;
+
+            const cityData = fullSchedule.find(group => group.city === selectedCity);
+            if (cityData) {
+                cityData.clinics.forEach(clinic => {
+                    const option = document.createElement('option');
+                    option.value = clinic.id; 
+                    option.textContent = clinic.name;
+                    branchSelect.appendChild(option);
+                });
+            }
+        }
+
+        // 3. ملء قائمة الأيام بناءً على الفرع والمدينة المختارة
+        function populateDayDropdown() {
+            const selectedCity = citySelect.value;
+            const selectedBranchId = branchSelect.value;
+            daySelect.innerHTML = '<option value="" disabled selected>اختر اليوم</option>';
+            
+            daySelect.disabled = true;
+            timesContainer.innerHTML = '<p class="text-gray-500 col-span-full">اختر اليوم لعرض المواعيد.</p>';
+            bookingSummary.classList.add('hidden');
+
+
+            if (!selectedCity || !selectedBranchId) return;
+
+            daySelect.disabled = false;
+
+            const cityData = fullSchedule.find(group => group.city === selectedCity);
+            if (cityData) {
+                const branchData = cityData.clinics.find(clinic => clinic.id === selectedBranchId);
+                if (branchData) {
+                    const availableDays = [...new Set(branchData.schedule.map(item => item.day))];
+                    
+                    availableDays.forEach(day => {
+                        const option = document.createElement('option');
+                        option.value = day;
+                        option.textContent = day;
+                        daySelect.appendChild(option);
+                    });
+                }
+            }
+        }
+
+        // 4. عرض الأوقات المتاحة للحجز بناءً على الاختيارات الثلاثة
+        function displayAvailableTimes() {
+            const selectedCity = citySelect.value;
+            const selectedBranchId = branchSelect.value;
+            const selectedDay = daySelect.value;
+            
+            timesContainer.innerHTML = ''; 
+            bookingSummary.classList.add('hidden');
+
+
+            if (!selectedCity || !selectedBranchId || !selectedDay) {
+                timesContainer.innerHTML = '<p class="text-gray-500 col-span-full">الرجاء إتمام جميع الاختيارات.</p>';
+                return;
+            }
+
+            const cityData = fullSchedule.find(group => group.city === selectedCity);
+            const branchData = cityData ? cityData.clinics.find(clinic => clinic.id === selectedBranchId) : null;
+            
+            let availableTimes = [];
+
+            if (branchData) {
+                branchData.schedule.filter(item => item.day === selectedDay)
+                                    .forEach(item => {
+                                        availableTimes.push(...item.times);
+                                    });
+            }
+
+            if (availableTimes.length > 0) {
+                availableTimes.forEach(time => {
+                    const timeButton = document.createElement('button');
+                    timeButton.textContent = time;
+                    timeButton.classList.add(
+                        'time-slot',
+                        'p-3', 'bg-white', 'text-[#002d6b]', 'font-bold', 
+                        'rounded-xl', 'shadow-md', 'border', 'border-[#0d6efd]/30', 
+                        'hover:bg-[#0d6efd]/10'
+                    );
+                    timeButton.setAttribute('data-time', time);
+                    timeButton.onclick = (e) => handleTimeSelection(e, selectedCity, branchData.name, selectedDay, time);
+                    timesContainer.appendChild(timeButton);
+                });
+            } else {
+                timesContainer.innerHTML = '<p class="text-red-500 col-span-full font-bold"><i class="fas fa-exclamation-circle ml-2"></i> لا توجد مواعيد متاحة لهذا اليوم حالياً.</p>';
+            }
+        }
+        
+        // دالة التعامل مع اختيار العميل للوقت
+        function handleTimeSelection(e, city, branchName, day, time) {
+            document.querySelectorAll('.time-slot').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            e.target.classList.add('selected');
+
+            const details = `${branchName} - ${city}, يوم ${day}، في تمام ${time}`;
+            summaryDetails.textContent = details;
+            bookingSummary.classList.remove('hidden');
+
+            console.log(`تم تحديد موعد: ${details}`);
+        }
+        
+        // كود JavaScript لإظهار رسالة التأكيد الديناميكية لنموذج التواصل
+        function showConfirmationMessage() {
+            const message = document.getElementById('confirmation-message');
+            message.classList.remove('hidden');
+            
+            setTimeout(() => {
+                message.classList.add('hidden');
+            }, 5000); 
+            
+            document.querySelector('form').reset();
+        }
+        
+        // **************** وظائف الشات بوت ****************
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const messagesContainer = document.getElementById('messages-container');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const quickRepliesContainer = document.getElementById('quick-replies');
+        
+        const contactNumber = "01033078657"; // رقم التواصل الثابت
+        
+        const apiKey = "";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        
+        // سجل المحادثة
+        let chatHistory = [];
+        let isWaitingForResponse = false;
+        
+        // اقتراحات الأسئلة السريعة (تم التعديل لتكون أكثر وضوحاً وإضافة موعد العاشر)
+        const quickQuestions = [
+            "ما هي خدمات تصحيح الإبصار لديكم؟",
+            "ما هو رقم التواصل؟",
+            "ما هي مواعيد عيادات القاهرة الكبرى؟", 
+            "ما هي مواعيد العاشر من رمضان؟" // السؤال الجديد
+        ];
+        
+        function populateQuickReplies() {
+            quickRepliesContainer.innerHTML = '';
+            quickQuestions.forEach(question => {
+                const chip = document.createElement('div');
+                chip.textContent = question;
+                chip.classList.add('quick-reply-chip');
+                chip.onclick = () => {
+                    chatInput.value = question;
+                    sendMessage();
+                    quickRepliesContainer.classList.add('hidden'); // إخفاء الأزرار بعد أول استخدام
+                };
+                quickRepliesContainer.appendChild(chip);
+            });
+        }
+        
+        function toggleChatbot() {
+            chatbotWindow.classList.toggle('open');
+            // استخدام `hidden` لضمان عدم وجودها في تدفق التصميم عند الإغلاق
+            if (chatbotWindow.classList.contains('open')) {
+                chatbotWindow.classList.remove('hidden');
+                chatInput.focus();
+                // إعادة عرض الأزرار السريعة عند فتح النافذة
+                quickRepliesContainer.classList.remove('hidden'); 
+            } else {
+                // تأخير الإخفاء لضمان ظهور الانتقال
+                setTimeout(() => {
+                    chatbotWindow.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function appendMessage(role, text) {
+            const alignmentClass = role === 'user' ? 'justify-end' : 'justify-start';
+            const bubbleClass = role === 'user' ? 'user-message' : 'bot-message';
+
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('flex', alignmentClass, 'mb-2'); // مسافة بين الرسائل
+            
+            const bubble = document.createElement('div');
+            bubble.classList.add('message-bubble', bubbleClass, 'shadow');
+            
+            // استخدام innerHTML لعرض الروابط والمصادر بشكل صحيح
+            bubble.innerHTML = text; 
+
+            messageDiv.appendChild(bubble);
+
+            // إضافة الرسالة في الأعلى (لأننا نستخدم flex-direction: column-reverse)
+            messagesContainer.insertBefore(messageDiv, messagesContainer.firstChild);
+
+            // حفظ الرسالة في سجل المحادثة (نستخدم النص النقي فقط)
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = text;
+            chatHistory.unshift({ role, parts: [{ text: tempDiv.textContent }] });
+        }
+
+        async function sendMessage() {
+            const userQuery = chatInput.value.trim();
+            if (userQuery === '' || isWaitingForResponse) return;
+
+            chatInput.value = '';
+            
+            // إخفاء أزرار الرد السريع بعد أول رسالة
+            quickRepliesContainer.classList.add('hidden'); 
+            
+            // 1. عرض رسالة المستخدم
+            appendMessage('user', userQuery);
+            
+            // 2. تفعيل حالة الانتظار
+            isWaitingForResponse = true;
+            sendButton.disabled = true;
+            loadingIndicator.classList.remove('hidden');
+
+            try {
+                const response = await fetchGeminiResponse(userQuery);
+                
+                let fullResponseText = response.text;
+                
+                // إضافة المصادر بشكل منفصل في رسالة البوت
+                if (response.sources && response.sources.length > 0) {
+                    const sourcesText = response.sources.map(s => `<a href="${s.uri}" target="_blank" class="text-blue-500 hover:underline">${s.title}</a>`).join('، ');
+                    fullResponseText += `<br><br> **المصادر:** ${sourcesText}`;
+                }
+
+                appendMessage('bot', fullResponseText);
+
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                // رسالة خطأ المستخدمة
+                appendMessage('bot', 'عذراً، حدث خطأ أثناء الاتصال بالمساعد. يرجى المحاولة مرة أخرى.');
+            } finally {
+                // 3. تعطيل حالة الانتظار
+                isWaitingForResponse = false;
+                sendButton.disabled = false;
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        async function fetchGeminiResponse(userQuery, maxRetries = 3) {
+            const scheduleText = formatScheduleForLLM();
+            
+            // دمج السياق الكامل في رسالة المستخدم لتجنب أخطاء systemInstruction الطويلة
+            const fullContext = `
+                أنت مساعد طبي افتراضي للدكتور أحمد يحيى، استشاري جراحات العيون. مهمتك هي الإجابة على استفسارات المرضى حول خدمات العيادة ومساعدتهم في استخدام الموقع بناءً على المعلومات المتاحة أدناه.
+                
+                **1. بيانات الاتصال:** رقم التواصل الموحد هو 01033078657. ورابط واتساب هو https://wa.me/201033078657.
+                **2. التخصصات:** جراحات تصحيح الإبصار (ليزك، فيمتوليزك، ليزك سطحي)، جراحات المياه البيضاء (فاكو وزرع عدسات متعددة البؤر)، جراحات القرنية (حلقات وتثبيت القرنية).
+                
+                **3. جدول المواعيد المتاح (استخدمه بشكل تفاعلي):**
+                ${scheduleText}
+                
+                **تعليمات الرد على المواعيد (مهم جداً):**
+                * إذا سأل العميل عن مواعيد مدينة معينة (مثل القاهرة أو العاشر من رمضان)، **لا تعرض كل المواعيد دفعة واحدة.**
+                * قم بالإشارة إلى الفروع المتاحة في تلك المدينة (من جدول المواعيد)، واطلب منه اختيار الفرع واليوم أولاً بعبارة مثل: "تفضل، لدينا عدة فروع في [اسم المدينة]. تحب حضرتك تحجز في فرع إيه ويوم إيه من الأيام المتاحة؟"
+                
+                **تعليمات عامة:**
+                * أكد على الرقم الموحد (01033078657).
+                * أجب بلغة عربية فصحى وودودة ومختصرة.
+                * لا تذكر أسماء المستشفيات، التزم بأسماء الفروع المعلنة فقط.
+                
+                ---
+                
+                **سؤال المستخدم:** ${userQuery}
+            `;
+            
+            // الآن نستخدم systemInstruction قصيرة ومركزة، ونرسل البيانات في contents
+            const systemPrompt = `أنت مساعد طبي افتراضي للدكتور أحمد يحيى. أجب على استفسارات العملاء بناءً على السياق الذي سأقدمه لك في رسالة المستخدم. يجب أن تكون الإجابة مفيدة، وودودة، وموجّهة نحو الحجز أو الاتصال.`;
+            
+            // استخدام fullContext كـ user query
+            const contents = [{ role: "user", parts: [{ text: fullContext }] }];
+
+            const payload = {
+                contents: contents,
+                tools: [{ "google_search": {} }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            for (let attempt = 0; attempt < maxRetries; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 429 && attempt < maxRetries - 1) {
+                            const delay = Math.pow(2, attempt) * 1000;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            continue;
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    const candidate = result.candidates?.[0];
+
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        const text = candidate.content.parts[0].text;
+                        let sources = [];
+                        const groundingMetadata = candidate.groundingMetadata;
+                        if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                            sources = groundingMetadata.groundingAttributions
+                                .map(attribution => ({
+                                    uri: attribution.web?.uri,
+                                    title: attribution.web?.title,
+                                }))
+                                .filter(source => source.uri && source.title);
+                        }
+                        return { text, sources };
+
+                    } else {
+                        throw new Error('Invalid response structure from API.');
+                    }
+                } catch (error) {
+                    if (attempt === maxRetries - 1) throw error;
+                    const delay = Math.pow(2, attempt) * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+        
+        // إرسال الرسالة عند الضغط على Enter
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // **************** وظيفة DOMContentLoaded ****************
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const scrollToTopButton = document.getElementById('scroll-to-top');
+            
+            // 1. تبديل قائمة الموبايل
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // إخفاء قائمة الموبايل عند الضغط على أي رابط بداخلها
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // 2. تحديث السنة في التذييل
+            const currentYearElement = document.getElementById('current-year-footer');
+            if(currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+
+            // 3. إظهار/إخفاء زر العودة للأعلى
+            if (scrollToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopButton.classList.add('show');
+                    } else {
+                        scrollToTopButton.classList.remove('show');
+                    }
+                });
+            }
+
+            // 4. ملء قائمة المدن التفاعلية وأزرار الرد السريع
+            populateCityDropdown();
+            populateQuickReplies();
+        });
+    </script>
+</body>
+</html>
+
